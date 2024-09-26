@@ -6,12 +6,12 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'tiktoken', 'json'  # Add your package dependencies here
+        'tiktoken', 'requests'  # Add your package dependencies here
     ],
     description='Utility functions for token counting and pricing checks for OpenAI models.',
     author='Aidan Coughlan',
     author_email='aidan@farfromavocados.com',
-    url='https://github.com/yourusername/aidanutils',
+    url='https://github.com/farfromavocaido/ai_utils',
     license='MIT',
     package_data={
         '': ['pricing.json'],  # Ensure pricing.json is included
