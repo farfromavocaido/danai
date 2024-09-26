@@ -138,5 +138,3 @@ def quick_q(prompt,model="gpt-4o-mini"):
     print(response_text)
     with open(f"qq_{timestamp}.txt", "w") as f:
         f.write(response_text)
-    
-    
