@@ -1,0 +1,42 @@
+{
+    "models": {
+      "gpt-4o-mini": {
+        "standard": {
+          "input": 0.15,
+          "output": 0.6
+        },
+        "batch": {
+          "input": 0.075,
+          "output": 0.3
+        }
+      },
+      "gpt-4o": {
+        "standard": {
+          "input": 5.0,
+          "output": 15.0
+        },
+        "batch": {
+          "input": 2.5,
+          "output": 7.5
+        }
+      },
+      "gpt-4o-2024-08-06": {
+        "standard": {
+          "input": 2.5,
+          "output": 10.0
+        },
+        "batch": {
+          "input": 1.25,
+          "output": 5.0
+        }
+      }
+    },
+    "mapping": {
+      "gpt-4o-mini-2024-07-18": "gpt-4o-mini",
+      "gpt-4o-mini-2024-06-15": "gpt-4o-mini",
+      "gpt-4o-2023-12-01": "gpt-4o",
+      "gpt-4o-2024-01-15": "gpt-4o",
+      "gpt-4o-2024-08-07": "gpt-4o-2024-08-06"
+    }
+  }
+  
