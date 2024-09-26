@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'tiktoken', 'requests'  # Add your package dependencies here
+        'tiktoken', 'requests', 'openai', 'datetime'  # Add your package dependencies here
     ],
     description='Utility functions for token counting and pricing checks for OpenAI models.',
     author='Aidan Coughlan',

@@ -1,5 +1,7 @@
 import tiktoken
 from .json_manager import check_for_update
+from openai import OpenAI
+import datetime
 
 def load_pricing_data():
     """
@@ -25,6 +27,7 @@ def pricecheck(response, comparison_model=None):
     output_tokens = response.usage.completion_tokens
     input_tokens = response.usage.prompt_tokens
 
+    # Determine the correct model for pricing
     if model_name in pricing_data['models']:
         model_pricing = pricing_data['models'][model_name]
     else:
@@ -34,17 +37,20 @@ def pricecheck(response, comparison_model=None):
         else:
             raise ValueError(f"Model {model_name} not found in pricing data and no mapping exists.")
 
+    # Calculate costs for the selected model
     input_cost = model_pricing['standard']['input'] * (input_tokens / 1_000_000)
     output_cost = model_pricing['standard']['output'] * (output_tokens / 1_000_000)
     total_cost = input_cost + output_cost
     total_tokens = input_tokens + output_tokens
 
+    # Base results string
     results = f"""
     Model used: {model_name}
     Tokens | In: {input_tokens} | Out: {output_tokens} | Total: {total_tokens}
     Cost | In: ${input_cost:.4f} | Out: ${output_cost:.4f}, Total: ${total_cost:.4f}
     """
 
+    # Comparison with another model, if provided
     if comparison_model:
         if comparison_model in pricing_data['models']:
             comparison_pricing = pricing_data['models'][comparison_model]
@@ -55,6 +61,7 @@ def pricecheck(response, comparison_model=None):
             else:
                 raise ValueError(f"Comparison model {comparison_model} not found in pricing data and no mapping exists.")
 
+        # Calculate comparison costs
         comparison_input_cost = comparison_pricing['standard']['input'] * (input_tokens / 1_000_000)
         comparison_output_cost = comparison_pricing['standard']['output'] * (output_tokens / 1_000_000)
         comparison_total_cost = comparison_input_cost + comparison_output_cost
@@ -62,18 +69,25 @@ def pricecheck(response, comparison_model=None):
 
         comparison = "cheaper" if cost_difference > 0 else "more expensive" if cost_difference < 0 else "the same price"
 
-        print(f"{comparison_model} Comparison: Input: ${comparison_input_cost:.4f} | Out: ${comparison_output_cost:.4f}, Total: ${comparison_total_cost:.4f}")
-        print(f"Cost Difference: {comparison_model} would be ${abs(cost_difference):.4f} {comparison}")
+        # Add comparison information to the results string
+        comparison_results = f"""
+        {comparison_model} Comparison:
+        Input: ${comparison_input_cost:.4f} | Out: ${comparison_output_cost:.4f}, Total: ${comparison_total_cost:.4f}
+        Cost Difference: {comparison_model} would be ${abs(cost_difference):.4f} {comparison}
+        """
+        
+        # Append comparison results to the main results string
+        results += comparison_results
 
     return results
 
-def tokencount_file(input_file, model="gpt-4"):
+def tokencount_file(input_file, model="gpt-4o"):
     """
     Count the number of tokens in a text file using the specified OpenAI model.
 
     Parameters:
     input_file: The file path to a text file.
-    model: The model name for which to count tokens (default is 'gpt-4').
+    model: The model name for which to count tokens (default is 'gpt-4o').
 
     Returns:
     The token count for the input file.
@@ -89,13 +103,13 @@ def tokencount_file(input_file, model="gpt-4"):
 
     return token_count
 
-def tokencount_text(text, model="gpt-4"):
+def tokencount_text(text, model="gpt-4o"):
     """
     Count the number of tokens in a given text string using the specified OpenAI model.
 
     Parameters:
     text: The input text string.
-    model: The model name for which to count tokens (default is 'gpt-4').
+    model: The model name for which to count tokens (default is 'gpt-4o').
 
     Returns:
     The token count for the input text.
@@ -104,3 +118,25 @@ def tokencount_text(text, model="gpt-4"):
     token_count = len(encoding.encode(text))
 
     return token_count
+
+def quick_q(prompt,model="gpt-4o-mini"):
+
+    client = OpenAI()
+
+    # set timestamp in yymmddHHMM format
+    timestamp = datetime.now().strftime("%y%m%d%H%M")
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ]
+    )
+
+    response_text = response.choices[0].message.content
+    print(response_text)
+    with open(f"qq_{timestamp}.txt", "w") as f:
+        f.write(response_text)
+    
+    
