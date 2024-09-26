@@ -123,9 +123,6 @@ def quick_q(prompt,model="gpt-4o-mini"):
 
     client = OpenAI()
 
-    # set timestamp in yymmddHHMM format
-    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M")
-
     response = client.chat.completions.create(
         model=model,
         messages=[
@@ -134,7 +131,19 @@ def quick_q(prompt,model="gpt-4o-mini"):
         ]
     )
 
+    return response
+
+def quickprint(prompt,model="gpt-4o-mini"):
+
+    response = quick_q(prompt,model=model)
+
+    # set timestamp in yymmddHHMM format
+    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M")
+
     response_text = response.choices[0].message.content
     print(response_text)
     with open(f"qq_{timestamp}.txt", "w") as f:
         f.write(response_text)
+    
+    cost = pricecheck(response)
+    print(cost)
