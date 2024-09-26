@@ -124,7 +124,7 @@ def quick_q(prompt,model="gpt-4o-mini"):
     client = OpenAI()
 
     # set timestamp in yymmddHHMM format
-    timestamp = datetime.now().strftime("%y%m%d%H%M")
+    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M")
 
     response = client.chat.completions.create(
         model=model,
