@@ -209,7 +209,7 @@ def print_directory_contents(directory, output_dir, ignore_dirs, ignore_files, i
                 f.write(f'# {file_path}\n\n```')
                 with open(file_path, 'r') as file:
                     file_content = file.read()
-                    tokens = tokencount_file(file_content)
+                    tokens = tokencount_text(file_content)
                     print(f'{tokens} tokens in {file_path}')
                     f.write(file.read())
                 f.write('\n```\n')
