@@ -162,9 +162,9 @@ def printsetup():
         os.mkdir("utils")
     except FileExistsError:
         pass
-    # Create 'printer.py' file if it doesn't exist
+    # Create empty 'printer.py' file if it doesn't exist
     with open("utils/printer.py", "w") as f:
-        f.write(print_directory_contents.__code__)
+        pass
     # Add 'ignore_files and ignore_dirs lists
     with open("utils/printer.py", "a") as f:
         f.write("import os")
