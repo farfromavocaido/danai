@@ -171,10 +171,12 @@ def printsetup():
         f.write("import os")
         f.write("\nfrom aiutils import print_directory_contents\n")
         f.write("\nignore_files = [\"printer.py\"]")
-        f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \".git\"]")
+        f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \"node_modules\", \".git\"]")
         f.write("\nignore_extensions = [\".pyc\"]")
         f.write("\n")
         f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files, ignore_extensions)")
+        f.write("\n")
+        f.write("\nprint_directory_tree(\".\", ignore_dirs")
     
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and non-readable files
@@ -211,3 +213,47 @@ def print_directory_contents(directory, ignore_dirs, ignore_files, ignore_extens
                 with open(file_path, 'r') as file:
                     f.write(file.read())
                 f.write('\n```\n')
+
+def generate_directory_tree(directory, ignore_dirs, prefix="", is_last=True):
+    tree = []
+    
+    # Walk through the directory
+    for root, dirs, files in os.walk(directory):
+        # Sort dirs and files for consistent output
+        dirs[:] = sorted(dirs)
+        file_count = len(files)
+        dir_count = len(dirs)
+
+        # Loop through each directory in the current level
+        for i, d in enumerate(dirs):
+            dir_path = os.path.join(root, d)
+            is_last_dir = (i == dir_count - 1) and (file_count == 0)
+
+            # Check if the directory is in the ignore list
+            if d in ignore_dirs:
+                # Include the directory in the tree but omit its contents
+                tree.append(f'{prefix}{"└── " if is_last_dir else "├── "}{d}')
+                tree.append(f'{prefix}    ├── //contents omitted//')
+            else:
+                # Include the directory and continue traversing
+                tree.append(f'{prefix}{"└── " if is_last_dir else "├── "}{d}/')
+                # Recurse into the directory
+                tree += generate_directory_tree(os.path.join(root, d), ignore_dirs, prefix + ("    " if is_last_dir else "│   "), is_last_dir)
+
+        # Loop through each file in the current directory
+        sorted_files = sorted(files)
+        for j, name in enumerate(sorted_files):
+            is_last_file = (j == file_count - 1)
+            tree.append(f'{prefix}{"└── " if is_last_file else "├── "}{name}')
+        
+        break  # Stop walking deeper into the directory (handle each directory individually in recursion)
+    
+    return tree
+
+# Function to print the directory tree in standard format
+def print_directory_tree(directory, ignore_dirs):
+    tree = generate_directory_tree(directory, ignore_dirs)
+    with open('tree.md', 'w') as f:
+        f.write(f"{directory}/\n")
+        f.write("\n".join(tree))
+        f.write("\n")
