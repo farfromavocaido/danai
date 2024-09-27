@@ -2,6 +2,7 @@ import tiktoken
 from .json_manager import check_for_update
 from openai import OpenAI
 import datetime
+import os
 
 def load_pricing_data():
     """
@@ -142,8 +143,47 @@ def quickprint(prompt,model="gpt-4o-mini"):
 
     response_text = response.choices[0].message.content
     print(response_text)
-    with open(f"qq_{timestamp}.txt", "w") as f:
+
+    # Check if 'qq' directory exists, if not create it
+    try:
+        os.mkdir("qq")
+    except FileExistsError:
+        pass
+
+    with open(f"qq/qq_{timestamp}.txt", "w") as f:
         f.write(response_text)
     
     cost = pricecheck(response)
     print(cost)
+
+def printsetup():
+    # Create 'utils' directory if it doesn't exist
+    try:
+        os.mkdir("utils")
+    except FileExistsError:
+        pass
+    # Create 'printer.py' file if it doesn't exist
+    with open("utils/printer.py", "w") as f:
+        f.write(print_directory_contents.__code__)
+    # Add 'ignore_files and ignore_dirs lists
+    with open("utils/printer.py", "a") as f:
+        f.write("import os")
+        f.write("\nfrom aituils import print_directory_contents\n")
+        f.write("\nignore_files = [\"printer.py\"]")
+        f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \".git\"]")
+        f.write("\n")
+        f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files)")
+    
+
+def print_directory_contents(directory, ignore_dirs, ignore_files):
+    with open('summary.md', 'w') as f:
+        for root, dirs, files in os.walk(directory):
+            if any(ignore in root for ignore in ignore_dirs):
+                continue
+            for name in files:
+                if name not in ignore_files:
+                    if name.endswith('.py'):
+                        f.write(f'# {root}/{name}\n\n```')
+                        with open(os.path.join(root, name), 'r') as py_file:
+                            f.write(py_file.read())
+                        f.write('\n```\n')
