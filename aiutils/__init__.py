@@ -208,7 +208,7 @@ def print_directory_contents(directory, output_dir, ignore_dirs, ignore_files, i
                 # Write the file name and its contents to summary.md
                 f.write(f'# {file_path}\n\n```')
                 with open(file_path, 'r') as file:
-                    tokens = tokencount_file()
+                    tokens = tokencount_file(file_path)
                     print(f'{tokens} tokens in {file_path}')
                     f.write(file.read())
                 f.write('\n```\n')
