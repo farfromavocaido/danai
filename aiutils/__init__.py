@@ -185,7 +185,7 @@ def is_binary_file(file_path):
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and binary/non-readable files
 def print_directory_contents(directory, output_dir, ignore_dirs, ignore_files, ignore_extensions):
-    output_path = os.join(output_dir, 'summary.md')
+    output_path = os.path.join(output_dir, 'summary.md')
     with open(output_path , 'w') as f:
         # Walk through the directory
         for root, dirs, files in os.walk(directory):
