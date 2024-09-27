@@ -171,19 +171,27 @@ def printsetup():
         f.write("\nfrom aiutils import print_directory_contents\n")
         f.write("\nignore_files = [\"printer.py\"]")
         f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \".git\"]")
+        f.write("\nignore_extensions = [\".pyc\"]")
         f.write("\n")
         f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files)")
     
 
-def print_directory_contents(directory, ignore_dirs, ignore_files):
+def print_directory_contents(directory, ignore_dirs, ignore_files, ignore_extensions):
     with open('summary.md', 'w') as f:
+        # Walk through the directory
         for root, dirs, files in os.walk(directory):
+            # Skip directories that are in the ignore list
             if any(ignore in root for ignore in ignore_dirs):
                 continue
+
+            # Loop through each file
             for name in files:
-                if name not in ignore_files:
-                    if name.endswith('.py'):
-                        f.write(f'# {root}/{name}\n\n```')
-                        with open(os.path.join(root, name), 'r') as py_file:
-                            f.write(py_file.read())
-                        f.write('\n```\n')
+                # Skip files that are in the ignore_files list or have an extension in ignore_extensions
+                if name in ignore_files or any(name.endswith(ext) for ext in ignore_extensions):
+                    continue
+
+                # Write the file name and its contents to summary.md
+                f.write(f'# {root}/{name}\n\n```')
+                with open(os.path.join(root, name), 'r') as file:
+                    f.write(file.read())
+                f.write('\n```\n')
