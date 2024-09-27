@@ -168,7 +168,7 @@ def printsetup():
     # Add 'ignore_files and ignore_dirs lists
     with open("utils/printer.py", "a") as f:
         f.write("import os")
-        f.write("\nfrom aituils import print_directory_contents\n")
+        f.write("\nfrom aiutils import print_directory_contents\n")
         f.write("\nignore_files = [\"printer.py\"]")
         f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \".git\"]")
         f.write("\n")

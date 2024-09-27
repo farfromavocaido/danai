@@ -16,4 +16,9 @@ setup(
     package_data={
         '': ['pricing.json'],  # Ensure pricing.json is included
     },
+    entry_points={
+    'console_scripts': [
+        'aiutils=aiutils.cli:main',  # Register 'aiutils' as the main entry point
+    ],
+    },
 )
