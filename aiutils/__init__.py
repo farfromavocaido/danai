@@ -4,6 +4,7 @@ from openai import OpenAI
 import datetime
 import os
 import mimetypes
+import pkgutil
 
 def load_pricing_data():
     """
@@ -159,16 +160,19 @@ def quickprint(prompt,model="gpt-4o-mini"):
     print(cost)
 
 def printsetup():
-    # Create 'utils' directory if it doesn't exist
+    # Create 'summaries' directory if it doesn't exist
     try:
         os.mkdir("summaries")
     except FileExistsError:
         pass
-    # Copy contents of printer_template.py to 'utils/printer.py'
-    with open("aiutils/printer_template.py", "r") as f:
-        template = f.read()
+
+    # Get the content of 'printer_template.py' from inside the package
+    template = pkgutil.get_data(__name__, 'printer_template.py').decode('utf-8')
+
+    # Write the content to 'summaries/printer.py'
     with open("summaries/printer.py", "w") as f:
         f.write(template)
+
     print("Setup complete. 'summaries/printer.py' created.")
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and non-readable files
