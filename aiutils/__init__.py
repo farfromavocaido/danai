@@ -3,6 +3,7 @@ from .json_manager import check_for_update
 from openai import OpenAI
 import datetime
 import os
+import mimetypes
 
 def load_pricing_data():
     """
@@ -173,25 +174,40 @@ def printsetup():
         f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \".git\"]")
         f.write("\nignore_extensions = [\".pyc\"]")
         f.write("\n")
-        f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files)")
+        f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files, ignore_extensions)")
     
 
+# Function to print the directory contents while ignoring certain directories, files, extensions, and non-readable files
+# Function to check if a file is binary or not
+def is_binary_file(file_path):
+    mime_type, _ = mimetypes.guess_type(file_path)
+    if mime_type is None:
+        return True  # If we can't guess the type, assume it's binary
+    return not mime_type.startswith('text')
+
+# Function to print the directory contents while ignoring certain directories, files, extensions, and binary/non-readable files
 def print_directory_contents(directory, ignore_dirs, ignore_files, ignore_extensions):
     with open('summary.md', 'w') as f:
         # Walk through the directory
         for root, dirs, files in os.walk(directory):
-            # Skip directories that are in the ignore list
-            if any(ignore in root for ignore in ignore_dirs):
-                continue
+            # Modify dirs in-place to exclude ignored directories globally
+            dirs[:] = [d for d in dirs if d not in ignore_dirs]
 
-            # Loop through each file
+            # Loop through each file in the current directory
             for name in files:
-                # Skip files that are in the ignore_files list or have an extension in ignore_extensions
+                # Skip files in ignore_files list or those with ignored extensions
                 if name in ignore_files or any(name.endswith(ext) for ext in ignore_extensions):
                     continue
 
+                # Get the full file path
+                file_path = os.path.join(root, name)
+
+                # Skip binary files and non-readable files
+                if is_binary_file(file_path) or not os.access(file_path, os.R_OK):
+                    continue
+
                 # Write the file name and its contents to summary.md
-                f.write(f'# {root}/{name}\n\n```')
-                with open(os.path.join(root, name), 'r') as file:
+                f.write(f'# {file_path}\n\n```')
+                with open(file_path, 'r') as file:
                     f.write(file.read())
                 f.write('\n```\n')

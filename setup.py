@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='aiutils',
-    version='0.3.2',
+    version='0.3.3',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'tiktoken', 'requests', 'openai', 'datetime'  # Add your package dependencies here
+        'tiktoken', 'requests', 'openai', 'datetime', 'mimetypes'  # Add your package dependencies here
     ],
     description='Utility functions for token counting and pricing checks for OpenAI models.',
     author='Aidan Coughlan',
