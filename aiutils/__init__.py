@@ -169,14 +169,14 @@ def printsetup():
     # Add 'ignore_files and ignore_dirs lists
     with open("utils/printer.py", "a") as f:
         f.write("import os")
-        f.write("\nfrom aiutils import print_directory_contents\n")
+        f.write("\nfrom aiutils import print_directory_contents, print_directory_tree\n")
         f.write("\nignore_files = [\"printer.py\"]")
         f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \"node_modules\", \".git\"]")
         f.write("\nignore_extensions = [\".pyc\"]")
         f.write("\n")
         f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files, ignore_extensions)")
         f.write("\n")
-        f.write("\nprint_directory_tree(\".\", ignore_dirs")
+        f.write("\nprint_directory_tree(\".\", ignore_dirs)")
     
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and non-readable files
