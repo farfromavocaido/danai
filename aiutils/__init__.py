@@ -206,7 +206,7 @@ def print_directory_contents(directory, output_dir, ignore_dirs, ignore_files, i
                     continue
 
                 # Write the file name and its contents to summary.md
-                f.write(f'# {file_path}\n\n```\n')
+                f.write(f'## {file_path}\n\n```\n')
                 with open(file_path, 'r') as file:
                     tokens = tokencount_file(file_path)
                     print(f'{tokens} tokens in {file_path}')
@@ -261,3 +261,12 @@ def print_directory_tree(directory, output_dir, ignore_dirs):
         f.write(f"{directory}/\n")
         f.write("\n".join(tree))
         f.write("\n")
+
+def join_summaries(output_directory):
+    with open(os.path.join(output_directory, "full_summary.md"), "a") as f:
+        f.write("# Directory Tree\n\n")
+        with open(os.path.join(output_directory, "tree.md")) as tree_file:
+            f.write(tree_file.read())
+        f.write("\n\n# Directory Contents\n\n")
+        with open(os.path.join(output_directory, "summary.md")) as contents_file:
+            f.write(contents_file.read())
