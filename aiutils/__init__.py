@@ -105,6 +105,7 @@ def tokencount_file(input_file, model="gpt-4o"):
 
     return token_count
 
+
 def tokencount_text(text, model="gpt-4o"):
     """
     Count the number of tokens in a given text string using the specified OpenAI model.
@@ -160,24 +161,15 @@ def quickprint(prompt,model="gpt-4o-mini"):
 def printsetup():
     # Create 'utils' directory if it doesn't exist
     try:
-        os.mkdir("utils")
+        os.mkdir("summaries")
     except FileExistsError:
         pass
-    # Create empty 'printer.py' file if it doesn't exist
-    with open("utils/printer.py", "w") as f:
-        pass
-    # Add 'ignore_files and ignore_dirs lists
-    with open("utils/printer.py", "a") as f:
-        f.write("import os")
-        f.write("\nfrom aiutils import print_directory_contents, print_directory_tree\n")
-        f.write("\nignore_files = [\"printer.py\"]")
-        f.write("\nignore_dirs = [\"__pycache__\", \"venv\", \"node_modules\", \".git\"]")
-        f.write("\nignore_extensions = [\".pyc\"]")
-        f.write("\n")
-        f.write("\nprint_directory_contents(\".\", ignore_dirs, ignore_files, ignore_extensions)")
-        f.write("\n")
-        f.write("\nprint_directory_tree(\".\", ignore_dirs)")
-    
+    # Copy contents of printer_template.py to 'utils/printer.py'
+    with open("aiutils/printer_template.py", "r") as f:
+        template = f.read()
+    with open("summaries/printer.py", "w") as f:
+        f.write(template)
+    print("Setup complete. 'summaries/printer.py' created.")
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and non-readable files
 # Function to check if a file is binary or not
@@ -188,8 +180,9 @@ def is_binary_file(file_path):
     return not mime_type.startswith('text')
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and binary/non-readable files
-def print_directory_contents(directory, ignore_dirs, ignore_files, ignore_extensions):
-    with open('summary.md', 'w') as f:
+def print_directory_contents(directory, output_dir, ignore_dirs, ignore_files, ignore_extensions):
+    output_path = os.join(output_dir, 'summary.md')
+    with open(output_path , 'w') as f:
         # Walk through the directory
         for root, dirs, files in os.walk(directory):
             # Modify dirs in-place to exclude ignored directories globally
@@ -211,8 +204,16 @@ def print_directory_contents(directory, ignore_dirs, ignore_files, ignore_extens
                 # Write the file name and its contents to summary.md
                 f.write(f'# {file_path}\n\n```')
                 with open(file_path, 'r') as file:
+                    file_content = file.read()
+                    tokens = tokencount_file(file_content)
+                    print(f'{tokens} tokens in {file_path}')
                     f.write(file.read())
                 f.write('\n```\n')
+            print(f'Finished processing {root}')
+        total_tokens = tokencount_file(output_path)
+        print(f'Total tokens in directory: {total_tokens}')
+
+        
 
 def generate_directory_tree(directory, ignore_dirs, prefix="", is_last=True):
     tree = []
@@ -251,9 +252,9 @@ def generate_directory_tree(directory, ignore_dirs, prefix="", is_last=True):
     return tree
 
 # Function to print the directory tree in standard format
-def print_directory_tree(directory, ignore_dirs):
+def print_directory_tree(directory, output_dir, ignore_dirs):
     tree = generate_directory_tree(directory, ignore_dirs)
-    with open('tree.md', 'w') as f:
+    with open(f'{output_dir}/tree.md', 'w') as f:
         f.write(f"{directory}/\n")
         f.write("\n".join(tree))
         f.write("\n")
