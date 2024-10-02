@@ -270,3 +270,60 @@ def join_summaries(output_directory):
         f.write("\n\n# Directory Contents\n\n")
         with open(os.path.join(output_directory, "summary.md")) as contents_file:
             f.write(contents_file.read())
+
+def jsonsave(response, filename=None, directory="outputs", overwrite=False, pretty=True, price=True):
+    """
+    Parse the response and save it as a JSON file.
+
+    Args:
+        response: The response object containing the parsed content.
+        filename (str): Optional. The filename to save the content. If not provided, a timestamped filename will be generated.
+        directory (str): The directory to save the output files.
+        overwrite (bool): Whether to overwrite the file if it exists. If False, a timestamp will be appended to avoid overwriting.
+        pretty (bool): Whether to pretty-print the JSON content with indentation.
+        price (bool): Whether to calculate and display the cost of the response.
+    """
+
+    # Extract parsed content and convert to JSON string
+    if pretty:
+        content = response.choices[0].message.parsed.model_dump_json(indent=4)  # Pretty print JSON with 4-space indentation
+    else:
+        content = response.choices[0].message.parsed.model_dump_json()  # Default compact JSON
+
+    extension = ".json"
+
+    # Generate filename if not provided
+    if not filename:
+        timecode = response.created
+        timestamp = datetime.datetime.fromtimestamp(timecode).strftime('%y%m%d-%H%M')
+        filename = f"output-{timestamp}{extension}"
+    else:
+        filename = f"{filename}{extension}"
+
+    # Ensure the directory exists
+    os.makedirs(directory, exist_ok=True)
+
+    # Determine file path and handle file existence
+    file_path = os.path.join(directory, filename)
+    
+    if not overwrite and os.path.exists(file_path):
+        # Append current timestamp before the extension if file exists
+        timestamp_now = datetime.datetime.now().strftime('%y%m%d-%H%M')
+        filename_no_ext, _ = os.path.splitext(filename)
+        filename = f"{filename_no_ext}-{timestamp_now}{extension}"
+        file_path = os.path.join(directory, filename)
+
+    # Write content to file
+    try:
+        with open(file_path, "w") as file:
+            file.write(content)
+        print(f"Content successfully written to {file_path}")
+    except Exception as e:
+        print(f"Failed to write content: {e}")
+
+    if price:
+        cost = pricecheck(response)
+        print(cost)
+    
+    # Return the file path for further use
+    return file_path

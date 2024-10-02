@@ -12,12 +12,12 @@
       },
       "gpt-4o": {
         "standard": {
-          "input": 5.0,
-          "output": 15.0
+          "input": 2.5,
+          "output": 10.0
         },
         "batch": {
-          "input": 2.5,
-          "output": 7.5
+          "input": 1.25,
+          "output": 5.0
         }
       },
       "gpt-4o-2024-08-06": {
