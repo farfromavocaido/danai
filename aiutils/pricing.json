@@ -3,6 +3,7 @@
       "gpt-4o-mini": {
         "standard": {
           "input": 0.15,
+          "cached": 0.075,
           "output": 0.6
         },
         "batch": {
@@ -13,6 +14,7 @@
       "gpt-4o": {
         "standard": {
           "input": 2.5,
+          "cached": 1.25,
           "output": 10.0
         },
         "batch": {
@@ -23,6 +25,7 @@
       "gpt-4o-2024-08-06": {
         "standard": {
           "input": 2.5,
+          "cached": 1.25,
           "output": 10.0
         },
         "batch": {

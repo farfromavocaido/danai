@@ -29,6 +29,16 @@ def pricecheck(response, comparison_model=None):
     model_name = response.model
     output_tokens = response.usage.completion_tokens
     input_tokens = response.usage.prompt_tokens
+    
+    # Check if cached tokens are available
+    if hasattr(response.usage, 'prompt_tokens_details') and hasattr(response.usage.prompt_tokens_details, 'cached_tokens'):
+        cached_tokens = response.usage.prompt_tokens_details.cached_tokens
+    else:
+        cached_tokens = None
+
+    if cached_tokens is not None:
+        # Subtract cached tokens from the input tokens
+        input_tokens = input_tokens - cached_tokens
 
     # Determine the correct model for pricing
     if model_name in pricing_data['models']:
@@ -43,14 +53,23 @@ def pricecheck(response, comparison_model=None):
     # Calculate costs for the selected model
     input_cost = model_pricing['standard']['input'] * (input_tokens / 1_000_000)
     output_cost = model_pricing['standard']['output'] * (output_tokens / 1_000_000)
+    if cached_tokens is not None:
+        cached_tokens_cost = model_pricing['standard']['input'] * (cached_tokens / 1_000_000)
     total_cost = input_cost + output_cost
     total_tokens = input_tokens + output_tokens
+
+    # Cached tokens string:
+    if cached_tokens is not None:
+        cached_tokens_str = f" | Cached: {cached_tokens} tokens, Cost: ${cached_tokens_cost:.4f}"
+    else:
+        cached_tokens_str = ""
 
     # Base results string
     results = f"""
     Model used: {model_name}
     Tokens | In: {input_tokens} | Out: {output_tokens} | Total: {total_tokens}
     Cost | In: ${input_cost:.4f} | Out: ${output_cost:.4f}, Total: ${total_cost:.4f}
+    {cached_tokens_str}
     """
 
     # Comparison with another model, if provided
