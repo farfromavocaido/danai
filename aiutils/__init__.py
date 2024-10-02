@@ -61,11 +61,16 @@ def pricecheck(response, comparison_model=None):
     if cached_tokens is not None:
         cached_tokens_cost = model_pricing['standard']['input'] * (cached_tokens / 1_000_000)
     total_cost = input_cost + output_cost
+    total_cost_without_cache = original_input_cost + output_cost
     total_tokens = original_input_tokens + output_tokens
+    cached_saving = original_input_cost - input_cost
 
     # Cached tokens string:
     if cached_tokens is not None:
-        cached_tokens_str = f"Cached: {cached_tokens} tokens, Cost: ${cached_tokens_cost:.4f} | Original Input Cost: ${original_input_cost:.4f}"
+        cached_tokens_str = f"""
+        Cost with caching: ${original_input_cost:.4f} - ${cached_saving:.4f} = ${input_cost:.4f} (saved ${cached_tokens_cost:.4f})
+        Total cost would have been ${total_cost_without_cache:.4f} without caching.
+        """
     else:
         cached_tokens_str = ""
 
