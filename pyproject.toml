@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "danai"
-version = "0.3.9"
+version = "0.3.9.1"
 description = "Utility functions for token counting and pricing checks for OpenAI models."
 authors = [{name = "Aidan Coughlan", email = "dev@farfromavocados.com"}]
 license = {text = "MIT"}
@@ -25,5 +25,5 @@ danai = ["pricing.json"]
 "Homepage" = "https://github.com/farfromavocaido/ai_utils"
 
 [project.scripts]
-aidan = "danai.cli:main"
+danai = "danai.cli:main"
 tcount = "danai.cli:tokencount_cli"

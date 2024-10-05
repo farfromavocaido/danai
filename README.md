@@ -111,6 +111,49 @@ response = ...  # Your OpenAI API response object
 jsonsave(response, filename="response", directory="outputs", overwrite=False, pretty=True, price=True)
 ```
 
+## CLI Tools
+
+Danai provides several command-line interface (CLI) tools for convenience:
+
+- **danai**: The main CLI tool.
+- **tcount**: A tool for counting tokens in text files or strings.
+- **printsetup**: A tool for printing setup information.
+
+### Using the CLI Tools
+
+#### Token Counting
+
+To count tokens in a text file using the CLI:
+
+```
+tcount path/to/textfile.txt --model gpt-4o
+```
+
+#### Print Setup Information
+
+To print setup information using the CLI:
+
+```
+danai printsetup
+```
+
+## Requirements
+
+- **Python**: Requires Python 3.7 or higher.
+- **Environment Variables**: Ensure that the `OPENAI_API_KEY` is set as an environment variable. This key is necessary for authenticating with the OpenAI API.
+
+To set the `OPENAI_API_KEY` environment variable on a Mac, you can add the following line to your `.bash_profile` or `.zshrc` file:
+
+```
+export OPENAI_API_KEY="your_openai_api_key"
+```
+
+Then, reload your profile:
+
+```
+source ~/.bash_profile  # or source ~/.zshrc
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -122,3 +165,4 @@ Aidan Coughlan - [dev@farfromavocados.com](mailto:dev@farfromavocados.com)
 ## Project Links
 
 - [Homepage](https://github.com/farfromavocaido/ai_utils)
+```
