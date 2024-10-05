@@ -1,3 +1,0 @@
-[console_scripts]
-aidan = aiutils.cli:main
-tcount = aiutils.cli:tokencount_cli
