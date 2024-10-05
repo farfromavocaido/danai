@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "danai"
 version = "0.3.7"
 description = "Utility functions for token counting and pricing checks for OpenAI models."
-authors = [{name = "Aidan Coughlan", email = "aidan@farfromavocados.com"}]
+authors = [{name = "Aidan Coughlan", email = "dev@farfromavocados.com"}]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.7"
