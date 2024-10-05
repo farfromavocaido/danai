@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='aiutils',
-    version='0.3.5',
+    version='0.3.6',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
@@ -17,8 +17,9 @@ setup(
         '': ['pricing.json'],  # Ensure pricing.json is included
     },
     entry_points={
-    'console_scripts': [
-        'aidan=aiutils.cli:main',  # Register 'aiutils' as the main entry point
-    ],
+        'console_scripts': [
+            'aidan=aiutils.cli:main',  # Existing entry point
+            'tcount=aiutils.cli:tokencount_cli',  # New entry point for tcount
+        ],
     },
 )

@@ -1,6 +1,15 @@
 import argparse
 from . import tokencount_file, quickprint, printsetup
 
+def tokencount_cli():
+    """
+    Command-line interface for token counting.
+    """
+    parser = argparse.ArgumentParser(description="Token Count Command Line Interface")
+    parser.add_argument('file', help='File path to count tokens')
+    args = parser.parse_args()
+    print(f"Token count for file {args.file}: {tokencount_file(args.file)}")
+
 def main():
     """
     Main function that handles the command-line interface.
