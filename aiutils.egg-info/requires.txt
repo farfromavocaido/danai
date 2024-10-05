@@ -1,0 +1,4 @@
+tiktoken
+requests
+openai
+datetime

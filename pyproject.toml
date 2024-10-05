@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aiutils"
+version = "0.3.6"
+description = "Utility functions for token counting and pricing checks for OpenAI models."
+authors = [{name = "Aidan Coughlan", email = "aidan@farfromavocados.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.7"
+
+dependencies = [
+    "tiktoken",
+    "requests",
+    "openai",
+    "datetime"
+]
+
+[tool.setuptools.package-data]
+aiutils = ["pricing.json"]
+
+[project.urls]
+"Homepage" = "https://github.com/farfromavocaido/ai_utils"
+
+[project.scripts]
+aidan = "aiutils.cli:main"
+tcount = "aiutils.cli:tokencount_cli"

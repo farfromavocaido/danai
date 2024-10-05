@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+aiutils/__init__.py
+aiutils/cli.py
+aiutils/json_manager.py
+aiutils/pricing.json
+aiutils/printer_template.py
+aiutils.egg-info/PKG-INFO
+aiutils.egg-info/SOURCES.txt
+aiutils.egg-info/dependency_links.txt
+aiutils.egg-info/entry_points.txt
+aiutils.egg-info/requires.txt
+aiutils.egg-info/top_level.txt
