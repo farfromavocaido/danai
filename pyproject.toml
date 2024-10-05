@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "danai"
-version = "0.3.9.4"
+version = "0.3.9"  # Use three-part versioning
 description = "A utility package for simplifying interactions with OpenAI models."
 authors = [{name = "Aidan Coughlan", email = "dev@farfromavocados.com"}]
 license = {text = "MIT"}
@@ -22,7 +22,7 @@ dependencies = [
 danai = ["pricing.json"]
 
 [project.urls]
-"Homepage" = "https://github.com/farfromavocaido/ai_utils"
+"Homepage" = "https://github.com/farfromavocaido/ai_utils"  # Update if repo name changes
 
 [project.scripts]
 danai = "danai.cli:main"

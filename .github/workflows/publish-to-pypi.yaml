@@ -1,35 +1,49 @@
-name: Upload Python Package to PyPI
+name: Publish Python Package
 
 on:
   push:
     branches:
-      - main  # You can change this to whichever branch you want to trigger the action.
+      - main
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
-      - name: Install build dependencies
+      # Step 3: Install dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build
+          pip install build setuptools twine toml
 
+      # Step 4: Check and bump the version
+      # Bump version if no manual bump is detected
+      - name: Bump version if necessary
+        id: bump_version
+        run: |
+          python bump_version.py
+        # Set output variable `should_publish` based on bump script's output
+        shell: bash
+        continue-on-error: false
+
+      # Step 5: Build the package
       - name: Build the package
         run: python -m build
 
+      # Step 6: Publish to PyPI if a version bump occurred
       - name: Publish to PyPI
+        if: steps.bump_version.outputs.should_publish == 'true'
         env:
-          TWINE_USERNAME: __token__
+          TWINE_USERNAME: "__token__"
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          pip install twine
-          twine upload dist/*
+        run: twine upload dist/*
