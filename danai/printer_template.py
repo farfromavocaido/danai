@@ -1,5 +1,5 @@
 import os
-from aiutils import print_directory_contents, print_directory_tree, join_summaries
+from danai import print_directory_contents, print_directory_tree, join_summaries
 
 ignore_files = ["printer.py"]
 ignore_dirs = ["__pycache__", "venv", "node_modules", ".git", "summaries"]

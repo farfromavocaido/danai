@@ -3,7 +3,7 @@ requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "aiutils"
+name = "danai"
 version = "0.3.7"
 description = "Utility functions for token counting and pricing checks for OpenAI models."
 authors = [{name = "Aidan Coughlan", email = "aidan@farfromavocados.com"}]
@@ -19,11 +19,11 @@ dependencies = [
 ]
 
 [tool.setuptools.package-data]
-aiutils = ["pricing.json"]
+danai = ["pricing.json"]
 
 [project.urls]
 "Homepage" = "https://github.com/farfromavocaido/ai_utils"
 
 [project.scripts]
-aidan = "aiutils.cli:main"
-tcount = "aiutils.cli:tokencount_cli"
+aidan = "danai.cli:main"
+tcount = "danai.cli:tokencount_cli"

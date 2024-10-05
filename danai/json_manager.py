@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 # Define paths for the cache, JSON, and metadata
 PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 PRICING_FILE = os.path.join(PACKAGE_DIR, 'pricing.json')
-CACHE_DIR = os.path.expanduser("~/.aiutils_cache")
+CACHE_DIR = os.path.expanduser("~/.danai_cache")
 CACHE_FILE = os.path.join(CACHE_DIR, "cached_pricing.json")
 METADATA_FILE = os.path.join(CACHE_DIR, "metadata.json")
 
@@ -14,7 +14,7 @@ METADATA_FILE = os.path.join(CACHE_DIR, "metadata.json")
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 # URL to fetch the JSON dynamically (if hosted elsewhere)
-JSON_URL = "https://raw.githubusercontent.com/farfromavocaido/ai_utils/refs/heads/main/aiutils/pricing.json"
+JSON_URL = "https://raw.githubusercontent.com/farfromavocaido/ai_utils/refs/heads/main/danai/pricing.json"
 
 def fetch_json():
     """Fetch the JSON from the external source (e.g., GitHub)."""
