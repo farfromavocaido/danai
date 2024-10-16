@@ -34,7 +34,7 @@ jobs:
           python bump_version.py
         # Set output variable `should_publish` based on bump script's output
         shell: bash
-        continue-on-error: false
+        continue-on-error: true
 
       # Step 5: Build the package
       - name: Build the package
