@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "danai"
-version = "0.3.12"  # Use three-part versioning
+version = "0.3.13"  # Use three-part versioning
 description = "A utility package for simplifying interactions with OpenAI models."
 authors = [{name = "Aidan Coughlan", email = "dev@farfromavocados.com"}]
 license = {text = "MIT"}
@@ -15,8 +15,7 @@ dependencies = [
     "tiktoken",
     "requests",
     "openai",
-    "datetime",
-    "base64"
+    "datetime"
 ]
 
 [tool.setuptools.package-data]
