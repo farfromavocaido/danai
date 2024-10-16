@@ -2,6 +2,7 @@ import os
 import json
 import requests
 from datetime import datetime, timedelta
+import base64
 
 # Define paths for the cache, JSON, and metadata
 PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -86,3 +87,23 @@ def prompt_user_to_update(last_updated):
     else:
         print("Using cached or default pricing data.")
         return load_local_json()
+    
+def oai_image(image_path):
+    with open(image_path, "rb") as img_file:
+        base64_image = base64.b64encode(img_file.read()).decode('utf-8')
+    
+    if image_path.endswith('.png'):
+        format = 'png'
+    elif image_path.endswith('.jpg') or image_path.endswith('.jpeg'):
+        format = 'jpeg'
+
+    
+    content = {
+        'type': 'image_url',
+        'image_url': {
+            'url': f"data:image/{format};base64,{base64_image}"
+        }
+    }
+
+    return content
+    
