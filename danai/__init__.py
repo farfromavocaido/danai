@@ -6,6 +6,7 @@ import os
 import mimetypes
 import pkgutil
 import base64
+import json
 
 def load_pricing_data():
     """
@@ -375,5 +376,8 @@ def oai_image(image_path):
             'url': f"data:image/{format};base64,{base64_image}"
         }
     }
+
+    # convert content to json
+    content = json.dumps(content)
 
     return content
