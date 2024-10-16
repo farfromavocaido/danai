@@ -26,15 +26,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install build setuptools twine toml
 
-      # Step 4: Check and bump the version
-      # Bump version if no manual bump is detected
-      - name: Bump version if necessary
-        id: bump_version
-        run: |
-          python bump_version.py
-        # Set output variable `should_publish` based on bump script's output
-        shell: bash
-        continue-on-error: true
 
       # Step 5: Build the package
       - name: Build the package
@@ -42,7 +33,6 @@ jobs:
 
       # Step 6: Publish to PyPI if a version bump occurred
       - name: Publish to PyPI
-        if: steps.bump_version.outputs.should_publish == 'true'
         env:
           TWINE_USERNAME: "__token__"
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
