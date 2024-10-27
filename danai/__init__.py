@@ -383,7 +383,7 @@ def oai_image(image_path):
 
     return content
 
-def ainspect(obj, obj_name=None, show_type=True, indent_level=4):
+def inspectai(obj, obj_name=None, show_type=True, indent_level=4):
     # Set the formatting template. You can adjust this as needed.
     # Options: 
     # format_str = "{name} = {value} ({type})" -> name = value (type)
@@ -417,16 +417,16 @@ def ainspect(obj, obj_name=None, show_type=True, indent_level=4):
             # Print formatted line or go deeper for nested structures
             if hasattr(value, "__dict__") or isinstance(value, list):
                 print(f"{indent}{formatted_line.split(' = ')[0]}:")  # Show attribute name only
-                ainspect(value, f"{obj_name}.{attr}", show_type, indent_level + 1)
+                inspectai(value, f"{obj_name}.{attr}", show_type, indent_level + 1)
             else:
                 print(f"{indent}{formatted_line}")
     
     # Check if the object is a list (for nested list attributes like choices)
     elif isinstance(obj, list):
         for index, item in enumerate(obj):
-            # Recursively call ainspect for each item in the list
+            # Recursively call inspectai for each item in the list
             print(f"{indent}{obj_name}[{index}]:")
-            ainspect(item, f"{obj_name}[{index}]", show_type, indent_level + 1)
+            inspectai(item, f"{obj_name}[{index}]", show_type, indent_level + 1)
     
     else:
         # For simple types, directly print them using format_str
