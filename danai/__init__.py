@@ -7,6 +7,7 @@ import mimetypes
 import pkgutil
 import base64
 import json
+import inspect
 
 def load_pricing_data():
     """
@@ -381,3 +382,54 @@ def oai_image(image_path):
     content = json.dumps(content)
 
     return content
+
+def ainspect(obj, obj_name=None, show_type=True, indent_level=4):
+    # Set the formatting template. You can adjust this as needed.
+    # Options: 
+    # format_str = "{name} = {value} ({type})" -> name = value (type)
+    # format_str = "{value} | {name} ({type})" -> value | name (type)
+    # format_str = "{name} ({type}): {value}" -> name (type): value
+    format_str = "{name} || {type} || {value}" if show_type else "{name} || {value}"
+
+    # Get the name of the variable if obj_name is not provided
+    if obj_name is None:
+        # Retrieve the variable name from the caller's local variables
+        frame = inspect.currentframe().f_back
+        obj_name = [name for name, val in frame.f_locals.items() if val is obj][0]
+
+    # Define indentation for nested attributes
+    indent = " " * indent_level
+
+    # Check if the object has a __dict__ attribute to handle class instances
+    if hasattr(obj, "__dict__"):
+        # Iterate through the attributes in the object's __dict__
+        for attr, value in obj.__dict__.items():
+            # Get the type string based on show_type
+            type_info = type(value).__name__ if show_type else ""
+
+            # Prepare formatted string for the current line
+            formatted_line = format_str.format(
+                name=f"{obj_name}.{attr}",
+                value=repr(value),
+                type=type_info
+            )
+            
+            # Print formatted line or go deeper for nested structures
+            if hasattr(value, "__dict__") or isinstance(value, list):
+                print(f"{indent}{formatted_line.split(' = ')[0]}:")  # Show attribute name only
+                ainspect(value, f"{obj_name}.{attr}", show_type, indent_level + 1)
+            else:
+                print(f"{indent}{formatted_line}")
+    
+    # Check if the object is a list (for nested list attributes like choices)
+    elif isinstance(obj, list):
+        for index, item in enumerate(obj):
+            # Recursively call ainspect for each item in the list
+            print(f"{indent}{obj_name}[{index}]:")
+            ainspect(item, f"{obj_name}[{index}]", show_type, indent_level + 1)
+    
+    else:
+        # For simple types, directly print them using format_str
+        type_info = type(obj).__name__ if show_type else ""
+        formatted_line = format_str.format(name=obj_name, value=repr(obj), type=type_info)
+        print(f"{indent}{formatted_line}")
