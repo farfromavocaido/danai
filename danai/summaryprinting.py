@@ -104,8 +104,3 @@ def join_summaries(output_directory):
         f.write("\n\n# Directory Contents\n\n")
         with open(os.path.join(output_directory, "summary.md")) as contents_file:
             f.write(contents_file.read())
-
-def printall(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions):
-    print_directory_contents(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
-    print_directory_tree(directory, output_directory, ignore_dirs, full_ignore)
-    join_summaries(output_directory)

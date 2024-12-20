@@ -433,3 +433,9 @@ def inspectai(obj, obj_name=None, show_type=True, indent_level=4):
         type_info = type(obj).__name__ if show_type else ""
         formatted_line = format_str.format(name=obj_name, value=repr(obj), type=type_info)
         print(f"{indent}{formatted_line}")
+
+
+def printall(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions):
+    print_directory_contents(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
+    print_directory_tree(directory, output_directory, ignore_dirs, full_ignore)
+    join_summaries(output_directory)

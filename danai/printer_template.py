@@ -1,5 +1,5 @@
 import os
-from danai.summaryprinting import printall
+from danai import printall
 
 output_directory = "summaries"
 
