@@ -1,5 +1,5 @@
 import os
-from print import print_directory_contents, print_directory_tree, join_summaries
+from danai.print import print_directory_contents, print_directory_tree, join_summaries
 
 output_directory = "summaries"
 
