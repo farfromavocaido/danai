@@ -1,5 +1,5 @@
 import os
-from danai.print import print_directory_contents, print_directory_tree, join_summaries
+from danai.summaryprinting import printall
 
 output_directory = "summaries"
 
@@ -11,8 +11,5 @@ full_ignore = ["__pycache__"]
 exempt_files = ['Dockerfile']
 exempt_extensions = ['.json', '.config', '.config.js', ".env"]
 
-print_directory_contents(".", output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
+printall(os.getcwd(), output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
 
-print_directory_tree(".", output_directory, ignore_dirs, full_ignore)
-
-join_summaries(output_directory)

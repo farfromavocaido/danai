@@ -136,6 +136,7 @@ def main():
     elif args.command == 'printsetup':
         # Call printsetup with no arguments
         printsetup()
+    
     else:
         print(f"Unknown command or missing argument: {args.command}")
 

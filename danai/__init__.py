@@ -205,7 +205,7 @@ def printsetup():
     with open("summaries/printer.py", "w") as f:
         f.write(template)
 
-    print("Setup complete. 'summaries/printer.py' created.")
+    print("Setup complete. 'summaries/print.py' created.")
 
 # Function to print the directory contents while ignoring certain directories, files, extensions, and non-readable files
 # Function to check if a file is binary or not
