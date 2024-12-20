@@ -435,7 +435,7 @@ def inspectai(obj, obj_name=None, show_type=True, indent_level=4):
         print(f"{indent}{formatted_line}")
 
 
-def printall(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions):
+def printsummary(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions):
     print_directory_contents(directory, output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
     print_directory_tree(directory, output_directory, ignore_dirs, full_ignore)
     join_summaries(output_directory)

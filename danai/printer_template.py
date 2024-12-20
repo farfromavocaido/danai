@@ -1,5 +1,5 @@
 import os
-from danai import printall
+from danai import printsummary
 
 output_directory = "summaries"
 
@@ -11,5 +11,5 @@ full_ignore = ["__pycache__"]
 exempt_files = ['Dockerfile']
 exempt_extensions = ['.json', '.config', '.config.js', ".env"]
 
-printall(os.getcwd(), output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
+printsummary(os.getcwd(), output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
 
