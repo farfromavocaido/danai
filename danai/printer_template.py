@@ -1,13 +1,18 @@
 import os
-from danai import print_directory_contents, print_directory_tree, join_summaries
+from print import print_directory_contents, print_directory_tree, join_summaries
 
-ignore_files = ["printer.py"]
-ignore_dirs = ["__pycache__", "venv", "node_modules", ".git", "summaries"]
-ignore_extensions = [".pyc"]
 output_directory = "summaries"
 
-print_directory_contents(".", output_directory, ignore_dirs, ignore_files, ignore_extensions)
+ignore_files = ["printer.py", "transcripts.txt", "package-lock.json"]
+ignore_dirs = ["venv", "node_modules", ".git", "summaries", ".idea", "transcripts", "flask_session"]
+ignore_extensions = [".pyc"]
+full_ignore = ["__pycache__"]
 
-print_directory_tree(".", output_directory, ignore_dirs)
+exempt_files = ['Dockerfile']
+exempt_extensions = ['.json', '.config', '.config.js', ".env"]
+
+print_directory_contents(".", output_directory, ignore_dirs, full_ignore, ignore_files, ignore_extensions, exempt_files, exempt_extensions)
+
+print_directory_tree(".", output_directory, ignore_dirs, full_ignore)
 
 join_summaries(output_directory)
