@@ -20,7 +20,7 @@ def get_dev_config() -> SummaryConfig:
         ignored_file_extensions=[],
         allowed_file_extensions=[".env", ".toml", ".json", ".config"],
         ignored_files=[".DS_Store"],
-        include_file_extensions=[".py"],  # only .py
+        only_include=[".py"],  # only .py
         processors=[
             RemoveHashCommentsProcessor(),
             TruncateProcessor(max_lines=300),
@@ -42,7 +42,7 @@ def get_blueprint_config() -> SummaryConfig:
         ignored_file_extensions=[".pyc"],
         allowed_file_extensions=[".env", ".toml", ".json", ".config"],
         ignored_files=[".DS_Store"],
-        include_file_extensions=[],  # empty => include everything
+        only_include=[],  # empty => include everything
         processors=[],  # no special transformations
         generate_tree=True,
         generate_summarydoc=True,

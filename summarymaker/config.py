@@ -27,7 +27,7 @@ class SummaryConfig:
     ignored_file_extensions: List[str] = field(default_factory=lambda: [".pyc", ".exe"])
     allowed_file_extensions: List[str] = field(default_factory=lambda: [".env", ".toml", ".json", ".config"])
     ignored_files: List[str] = field(default_factory=lambda: [".DS_Store"])
-    include_file_extensions: List[str] = field(default_factory=list)
+    only_include: List[str] = field(default_factory=list)
 
     processors: List[object] = field(default_factory=list)
     generate_tree: bool = True

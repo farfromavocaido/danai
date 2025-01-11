@@ -67,8 +67,8 @@ def collect_included_files(config: SummaryConfig) -> List[FileInfo]:
                     if file_ext not in config.allowed_file_extensions:
                         continue
 
-                # If include_file_extensions is non-empty, skip anything not in that list
-                if config.include_file_extensions and file_ext not in config.include_file_extensions:
+                # If only_include is non-empty, skip anything not in that list
+                if config.only_include and file_ext not in config.only_include:
                     continue
 
                 # Check if file is likely binary (unless exempt)
