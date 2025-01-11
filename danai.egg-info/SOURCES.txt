@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+danai.egg-info/PKG-INFO
+danai.egg-info/SOURCES.txt
+danai.egg-info/dependency_links.txt
+danai.egg-info/requires.txt
+danai.egg-info/top_level.txt

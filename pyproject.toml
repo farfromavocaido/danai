@@ -2,9 +2,13 @@
 requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["danai*"]
+
 [project]
 name = "danai"
-version = "0.3.3"  # Use three-part versioning
+version = "0.4.3"  # Use three-part versioning
 description = "A utility package for simplifying interactions with OpenAI models."
 authors = [{name = "Aidan Coughlan", email = "dev@farfromavocados.com"}]
 license = {text = "MIT"}
@@ -14,16 +18,8 @@ requires-python = ">=3.7"
 dependencies = [
     "tiktoken",
     "requests",
-    "openai",
     "datetime"
 ]
 
-[tool.setuptools.package-data]
-danai = ["pricing.json"]
-
 [project.urls]
-"Homepage" = "https://github.com/farfromavocaido/ai_utils"  # Update if repo name changes
-
-[project.scripts]
-danai = "danai.cli:main"
-tcount = "danai.cli:tokencount_cli"
+"Homepage" = "https://github.com/farfromavocaido/danai"  # Update if repo name changes
